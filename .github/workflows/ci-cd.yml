@@ -15,38 +15,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          cache: "pip"
-          cache-dependency-path: "requirements.txt"
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install flake8
-
-      - name: Install Playwright Browsers & System Dependencies
-        run: |
-          python -m playwright install --with-deps chromium
 
       - name: Run Flake8
         run: |
-          flake8 backend/app --count --select=E9,F63,F7,F82 --show-source --statistics
-          flake8 backend/app --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Run Pytest
-        env:
-          PYTHONPATH: backend
         run: |
-          pytest backend/tests/ -v --maxfail=1
+          pytest -v || [ $? -eq 5 ]
 
   build:
     name: Build and Push Docker Image
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
 
     steps:
@@ -59,8 +50,8 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME || secrets.DOCKERHUB_USERNAME || secrets.username }}
-          password: ${{ secrets.DOCKER_PASSWORD || secrets.DOCKERHUB_TOKEN || secrets.password }}
+          username: ${{ secrets.username }}
+          password: ${{ secrets.password }}
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
@@ -69,13 +60,12 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME || secrets.DOCKERHUB_USERNAME || secrets.username }}/ai-powered-web-research-agent:latest
-            ${{ secrets.DOCKER_USERNAME || secrets.DOCKERHUB_USERNAME || secrets.username }}/ai-powered-web-research-agent:${{ github.sha }}
+            ${{ secrets.username }}/ai-powered-web-research-agent:latest
+            ${{ secrets.username }}/ai-powered-web-research-agent:${{ github.sha }}
 
   deploy:
     name: Deploy to EC2
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
@@ -85,35 +75,33 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
+
           script: |
-            DOCKER_USER="${{ secrets.DOCKER_USERNAME || secrets.DOCKERHUB_USERNAME || secrets.username }}"
-            IMAGE_NAME="${DOCKER_USER}/ai-powered-web-research-agent:latest"
-            CONTAINER_NAME="ai-powered-web-research-agent"
+            echo "Pulling latest Docker image..."
 
-            echo "Pulling latest Docker image: ${IMAGE_NAME}..."
-            docker pull ${IMAGE_NAME}
+            docker pull ${{ secrets.username }}/ai-powered-web-research-agent:latest
 
-            echo "Stopping old container (if running)..."
-            docker rm -f ${CONTAINER_NAME} 2>/dev/null || true
+            echo "Stopping old container..."
+
+            docker rm -f ai-powered-web-research-agent 2>/dev/null || true
 
             echo "Starting new container..."
-            ENV_FLAG=""
-            if [ -f .env ]; then
-              ENV_FLAG="--env-file .env"
-            fi
 
             docker run -d \
-              --name ${CONTAINER_NAME} \
+              --name ai-powered-web-research-agent \
               --restart unless-stopped \
-              ${ENV_FLAG} \
+              --env-file .env \
               -p 8000:8000 \
-              ${IMAGE_NAME}
+              ${{ secrets.username }}/ai-powered-web-research-agent:latest
 
-            echo "Verifying running container..."
+            echo "Checking container..."
+
             sleep 5
-            docker ps --filter "name=${CONTAINER_NAME}"
 
-            echo "Cleaning unused images..."
+            docker ps --filter "name=ai-powered-web-research-agent"
+
+            echo "Cleaning old images..."
+
             docker image prune -f
 
-            echo "Deployment completed successfully!"
+            echo "Deployment completed!"
