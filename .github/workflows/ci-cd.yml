@@ -62,6 +62,8 @@ jobs:
           tags: |
             ${{ secrets.username }}/ai-powered-web-research-agent:latest
             ${{ secrets.username }}/ai-powered-web-research-agent:${{ github.sha }}
+            ${{ secrets.username }}/multi-model-ai-assistant:latest
+            ${{ secrets.username }}/multi-model-ai-assistant:${{ github.sha }}
 
   deploy:
     name: Deploy to EC2
@@ -75,24 +77,36 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: ${{ secrets.EC2_PORT || 22 }}
+          timeout: 60s
 
           script: |
             echo "Pulling latest Docker image..."
 
-            docker pull ${{ secrets.username }}/ai-powered-web-research-agent:latest
+            docker pull ${{ secrets.username }}/ai-powered-web-research-agent:latest || docker pull ${{ secrets.username }}/multi-model-ai-assistant:latest
 
             echo "Stopping old container..."
 
-            docker rm -f ai-powered-web-research-agent 2>/dev/null || true
+            docker rm -f ai-powered-web-research-agent multi-model-ai-assistant 2>/dev/null || true
 
             echo "Starting new container..."
+
+            IMAGE_NAME="${{ secrets.username }}/ai-powered-web-research-agent:latest"
+            if ! docker image inspect "${IMAGE_NAME}" >/dev/null 2>&1; then
+              IMAGE_NAME="${{ secrets.username }}/multi-model-ai-assistant:latest"
+            fi
+
+            ENV_FLAG=""
+            if [ -f .env ]; then
+              ENV_FLAG="--env-file .env"
+            fi
 
             docker run -d \
               --name ai-powered-web-research-agent \
               --restart unless-stopped \
-              --env-file .env \
+              ${ENV_FLAG} \
               -p 8000:8000 \
-              ${{ secrets.username }}/ai-powered-web-research-agent:latest
+              "${IMAGE_NAME}"
 
             echo "Checking container..."
 
