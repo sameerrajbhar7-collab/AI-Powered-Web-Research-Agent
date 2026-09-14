@@ -1,0 +1,45 @@
+services:
+  research-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_web_research_agent
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./frontend:/app/frontend
+    environment:
+      - APP_ENV=production
+      - HOST=0.0.0.0
+      - PORT=8000
+      - QWEN_BACKEND=ollama
+      - QWEN_BASE_URL=http://ollama:11434/v1
+      - QWEN_MODEL=qwen2.5:latest
+      - PLAYWRIGHT_HEADLESS=true
+      - BROWSER_TIMEOUT_MS=15000
+      - MAX_CONCURRENT_PAGES=3
+      - ENABLE_AD_BLOCKING=true
+      - ENABLE_SSRF_PROTECTION=true
+    depends_on:
+      - ollama
+    restart: unless-stopped
+    networks:
+      - intel-network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama_qwen
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - intel-network
+
+volumes:
+  ollama_data:
+
+networks:
+  intel-network:
+    driver: bridge
