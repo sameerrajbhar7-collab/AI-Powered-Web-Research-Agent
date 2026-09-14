@@ -41,6 +41,12 @@ class PlaywrightManager:
                 )
                 self._shared_context = await self.create_stealth_context()
                 logger.info("Playwright Chromium browser successfully launched.")
+            except NotImplementedError:
+                logger.error(
+                    "Playwright requires asyncio ProactorEventLoop on Windows. "
+                    "If running uvicorn with --reload, start with: --loop asyncio.windows_events:ProactorEventLoop"
+                )
+                raise
             except Exception as e:
                 logger.error(f"Failed to launch Playwright browser: {e}")
                 raise

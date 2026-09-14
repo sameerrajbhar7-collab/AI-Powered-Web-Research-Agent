@@ -91,4 +91,6 @@ async def serve_script():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app.main:app", host=settings.HOST, port=settings.PORT, reload=settings.DEBUG)
+    import sys
+    loop_arg = "asyncio.windows_events:ProactorEventLoop" if sys.platform == "win32" else "auto"
+    uvicorn.run("app.main:app", host=settings.HOST, port=settings.PORT, reload=settings.DEBUG, loop=loop_arg)
