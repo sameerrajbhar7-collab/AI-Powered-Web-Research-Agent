@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,37 +8,34 @@
   <meta name="description" content="Simple, fast AI web search with Playwright and Qwen.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/styles.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css?v=3">
   <!-- Markdown parser library -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
+
 <body>
   <div class="background-mesh"></div>
 
   <main class="app-container">
     <!-- Clean Minimal Header -->
     <header class="search-header">
-      <h1 class="header-title">AI-Powered Web Research</h1>
+      <h1 class="header-title">Web Research Agent</h1>
     </header>
 
     <!-- Search Box: 1 Input + 1 Button -->
     <section class="search-box-card">
       <form id="searchForm" class="search-form">
-        <input
-          type="text"
-          id="questionInput"
-          class="search-input"
-          placeholder="Ask me question"
-          autocomplete="off"
-          required
-        />
+        <input type="text" id="questionInput" class="search-input" placeholder="Ask me question" autocomplete="off"
+          required />
         <button type="submit" id="searchBtn" class="search-btn">
           <span class="btn-spinner" id="btnSpinner"></span>
           <span id="btnText">Search</span>
         </button>
       </form>
-      
+
       <!-- Loading Indicator -->
       <div id="loadingIndicator" class="loading-bar" style="display: none;">
         <span class="spinner-dot"></span>
@@ -54,4 +52,5 @@
 
   <script src="/static/app.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 :root {
   --bg-dark: #070a13;
-  --bg-card: rgba(15, 23, 42, 0.75);
+  --bg-card: #0d1222;
   --border-card: rgba(255, 255, 255, 0.08);
   --primary-cyan: #00f2fe;
   --primary-blue: #0284c7;
@@ -30,18 +30,9 @@ body {
   line-height: 1.6;
 }
 
-/* Background Subtle Glow */
+/* Background mesh disabled for clean single-color background */
 .background-mesh {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  background: 
-    radial-gradient(circle at 50% 10%, rgba(0, 242, 254, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 45%);
-  z-index: 0;
+  display: none;
 }
 
 .app-container {
