@@ -1,11 +1,11 @@
 :root {
-  --bg-dark: #070a13;
-  --bg-card: #0d1222;
-  --border-card: rgba(255, 255, 255, 0.08);
-  --primary-cyan: #00f2fe;
-  --primary-blue: #0284c7;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --bg-page: #ffffff;
+  --bg-card: #ffffff;
+  --border-card: #e2e8f0;
+  --primary-accent: #0284c7;
+  --primary-gradient: linear-gradient(135deg, #0284c7, #2563eb);
+  --text-main: #0f172a;
+  --text-muted: #64748b;
   --radius-md: 14px;
   --radius-pill: 40px;
   --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -19,7 +19,7 @@
 }
 
 body {
-  background-color: var(--bg-dark);
+  background-color: var(--bg-page);
   color: var(--text-main);
   font-family: var(--font-sans);
   min-height: 100vh;
@@ -30,7 +30,7 @@ body {
   line-height: 1.6;
 }
 
-/* Background mesh disabled for clean single-color background */
+/* Background mesh disabled for clean white single-color background */
 .background-mesh {
   display: none;
 }
@@ -56,19 +56,19 @@ body {
   font-size: 0.68rem;
   letter-spacing: 1.5px;
   font-weight: 700;
-  color: var(--primary-cyan);
-  background: rgba(0, 242, 254, 0.1);
+  color: #0369a1;
+  background: #f0f9ff;
   padding: 3px 12px;
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(0, 242, 254, 0.25);
+  border: 1px solid #bae6fd;
   margin-bottom: 8px;
 }
 
 .header-title {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 800;
   letter-spacing: -0.5px;
-  color: #ffffff;
+  color: var(--text-main);
 }
 
 .header-subtitle {
@@ -83,8 +83,7 @@ body {
   border: 1px solid var(--border-card);
   border-radius: var(--radius-pill);
   padding: 6px 8px 6px 20px;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .search-form {
@@ -105,7 +104,7 @@ body {
 }
 
 .search-input::placeholder {
-  color: #64748b;
+  color: #94a3b8;
 }
 
 .search-btn {
@@ -113,10 +112,10 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+  background: var(--primary-gradient);
   border: none;
   border-radius: var(--radius-pill);
-  color: #050b14;
+  color: #ffffff;
   font-family: var(--font-sans);
   font-size: 0.95rem;
   font-weight: 700;
@@ -128,7 +127,7 @@ body {
 
 .search-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 18px rgba(0, 242, 254, 0.35);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
 }
 
 .search-btn:disabled {
@@ -140,8 +139,8 @@ body {
   display: none;
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(5, 11, 20, 0.3);
-  border-top-color: #050b14;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -152,7 +151,7 @@ body {
   align-items: center;
   gap: 10px;
   padding: 12px 14px 6px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid #f1f5f9;
   margin-top: 8px;
 }
 
@@ -160,14 +159,14 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--primary-cyan);
-  box-shadow: 0 0 10px var(--primary-cyan);
+  background: var(--primary-accent);
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.4);
   animation: pulse 1.2s infinite;
 }
 
 .status-text {
   font-size: 0.85rem;
-  color: var(--primary-cyan);
+  color: var(--primary-accent);
   font-family: var(--font-mono);
 }
 
@@ -177,39 +176,39 @@ body {
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   padding: 28px;
-  backdrop-filter: blur(16px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   gap: 22px;
 }
 
 .answer-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border-card);
   padding-bottom: 10px;
 }
 
 .section-label {
   font-size: 1.15rem;
   font-weight: 700;
-  color: var(--primary-cyan);
+  color: var(--primary-accent);
 }
 
 /* Answer Body */
 .answer-body {
   font-size: 1.05rem;
   line-height: 1.75;
-  color: #e2e8f0;
+  color: #334155;
 }
 
 .answer-body p {
   margin-bottom: 14px;
 }
 
-.answer-body h3, .answer-body h4 {
-  color: #f8fafc;
+.answer-body h1, .answer-body h2, .answer-body h3, .answer-body h4 {
+  color: var(--text-main);
   margin: 16px 0 8px;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
 .answer-body ul, .answer-body ol {
@@ -222,16 +221,42 @@ body {
 }
 
 .answer-body a {
-  color: var(--primary-cyan);
+  color: var(--primary-accent);
   text-decoration: none;
 }
+
 .answer-body a:hover {
   text-decoration: underline;
 }
 
+.answer-body code {
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.answer-body pre {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 14px;
+}
+
+.answer-body blockquote {
+  border-left: 3px solid var(--primary-accent);
+  padding-left: 14px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
 /* Sources List Below Answer */
 .sources-container {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-card);
   padding-top: 18px;
 }
 
@@ -252,7 +277,7 @@ body {
 }
 
 .source-item {
-  background: rgba(6, 9, 16, 0.5);
+  background: #f8fafc;
   border: 1px solid var(--border-card);
   border-radius: 8px;
   padding: 10px 14px;
@@ -263,27 +288,27 @@ body {
 }
 
 .source-item:hover {
-  border-color: var(--primary-cyan);
-  background: rgba(0, 242, 254, 0.04);
+  border-color: var(--primary-accent);
+  background: #f0f9ff;
 }
 
 .source-link {
   font-size: 0.92rem;
   font-weight: 600;
-  color: #f8fafc;
+  color: var(--text-main);
   text-decoration: none;
 }
 
 .source-link:hover {
-  color: var(--primary-cyan);
+  color: var(--primary-accent);
 }
 
 .source-url-text {
   font-size: 0.75rem;
-  color: var(--primary-cyan);
+  color: var(--primary-accent);
   font-family: var(--font-mono);
   word-break: break-all;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 @keyframes spin {
