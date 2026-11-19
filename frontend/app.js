@@ -1,3 +1,4 @@
+window.searchFormLoaded = true;
 document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.getElementById("searchForm");
   const questionInput = document.getElementById("questionInput");

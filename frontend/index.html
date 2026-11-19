@@ -11,12 +11,30 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="/static/styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="/static/styles.css?v=6">
+  <!-- Inline style to guarantee 100% white background regardless of browser caching -->
+  <style>
+    html,
+    body {
+      background-color: #ffffff !important;
+      background: #ffffff !important;
+      color: #0f172a !important;
+    }
+    .background-mesh {
+      display: none !important;
+    }
+    .search-box-card,
+    .results-card {
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+    }
+  </style>
   <!-- Markdown parser library -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
-<body>
+<body style="background-color: #ffffff; background: #ffffff;">
   <div class="background-mesh"></div>
 
   <main class="app-container">
@@ -50,7 +68,15 @@
     </section>
   </main>
 
-  <script src="/static/app.js"></script>
+  <script src="app.js?v=6"></script>
+  <script>
+    if (!window.searchFormLoaded) {
+      // Fallback if accessed via /static
+      const s = document.createElement('script');
+      s.src = '/static/app.js?v=6';
+      document.body.appendChild(s);
+    }
+  </script>
 </body>
 
 </html>

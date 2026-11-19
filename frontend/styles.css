@@ -34,7 +34,8 @@ body {
 
 /* Background mesh disabled for clean white single-color background */
 .background-mesh {
-  display: none;
+  display: none !important;
+  background: #ffffff !important;
 }
 
 .app-container {

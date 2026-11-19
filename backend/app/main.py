@@ -67,7 +67,7 @@ async def serve_dashboard():
     if frontend_dir:
         index_path = os.path.join(frontend_dir, "index.html")
         if os.path.exists(index_path):
-            return FileResponse(index_path)
+            return FileResponse(index_path, headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
     return {"message": "AI-Powered Web Research Agent is running. Visit /docs for Swagger UI."}
 
 
@@ -76,7 +76,7 @@ async def serve_styles():
     if frontend_dir:
         p = os.path.join(frontend_dir, "styles.css")
         if os.path.exists(p):
-            return FileResponse(p, media_type="text/css")
+            return FileResponse(p, media_type="text/css", headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
     return FileResponse(status_code=404)
 
 
@@ -85,7 +85,7 @@ async def serve_script():
     if frontend_dir:
         p = os.path.join(frontend_dir, "app.js")
         if os.path.exists(p):
-            return FileResponse(p, media_type="application/javascript")
+            return FileResponse(p, media_type="application/javascript", headers={"Cache-Control": "no-cache, no-store, must-revalidate"})
     return FileResponse(status_code=404)
 
 
