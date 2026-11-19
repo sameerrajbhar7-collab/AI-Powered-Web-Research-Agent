@@ -18,8 +18,10 @@
   padding: 0;
 }
 
+html,
 body {
-  background-color: var(--bg-page);
+  background-color: #ffffff !important;
+  background: #ffffff !important;
   color: var(--text-main);
   font-family: var(--font-sans);
   min-height: 100vh;
